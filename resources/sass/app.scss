@@ -1,0 +1,149 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@media print {
+    .item_no_po {
+        width: 10px !important;
+    }
+    .buttonPrint {
+        display: none;
+    }
+
+    .my-label {
+        font-weight: 600 !important;
+    }
+    .PO_TITLE {
+        font-weight: 600;
+        font-size: 30px;
+    }
+    .purchase_order_wrapper{
+        padding: 30px;
+    }
+
+    .po_logo_img{
+
+        width:200px;
+
+    }
+
+    .invoice_1 {
+        padding-top:70px;
+        margin-left: -165px;
+        margin-right: -165px;
+    }
+
+    .po_company_info{
+        text-align: right;
+        line-height: 0.8;
+
+        .po_company_name {
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .po_company_address {
+            font-size: 10px;
+        }
+
+        .po_company_email {
+            color: blue;
+        }
+    }
+
+    .fomr_table_po_item td {
+        padding: 10px
+    }
+    .po_item_header_items th {
+        text-align: center;
+    }
+    .po_footer_items  td {
+        padding: 5px
+    }
+    .item_no_items{
+        text-align: center;
+    }
+    .po_item_data_item td{
+        padding: 2px
+    }
+    .item_center_items {
+        text-align: center;
+    }
+    .button_center_item{
+        text-align: center;
+    }
+
+    .invalid-feedback_item{
+        display: inline !important;
+    }
+
+    .po_footer_names_item {
+
+        .po_footer_left {
+            float: left;
+            text-align: left;
+
+            .po_footer_title {
+                font-weight: 600;
+            }
+        }
+
+        .po_footer_right {
+            float: right;
+
+            .po_footer_title {
+                font-weight: 600;
+            }
+        }
+
+        .po_footer_name {
+            border-top-style: solid;
+            padding-top: 5px;
+            border-top-width: 1px;
+            border-top-color: #000;
+            line-height: 0.8
+        }
+    }
+}
+
+.invoice_logo_img {
+    width: 150px
+}
+.el-descriptions--mini, .el-descriptions--small {
+    font-size: 14px !important;
+}
+
+.el-descriptions__title {
+    font-size: 17px !important;
+    font-weight: 700;
+}
+
+.equipment_info {
+    font-size: 25px !important;
+}
+
+.el-descriptions-item__label:not(.is-bordered-label) {
+    margin-right: 10px;
+    font-weight: 600 !important;
+}
+
+
+.container_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 20px
+}
+
+
+.inventory {
+    width: 500px;
+    margin: 10px ;
+    text-align: center;
+    padding: 10px;
+}

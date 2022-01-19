@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateRequestMaterialsFormsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('request_materials_forms', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('project_id');
+            $table->date('date_request')->nullable();
+            $table->string('requested_by')->nullable();
+            $table->string('approved_by')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('request_materials_forms');
+    }
+}

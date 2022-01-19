@@ -1,0 +1,18 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#title{
+	background-color: skyblue;
+}
+input[type="text"], input[type="number"] , span#vendorEmail, span#shipToEmail, span#companyEmail {
+    border: none;
+    border-bottom: 1px solid #DCDCDC;
+    border-radius: 0;
+    background-color: white;
+}
+
+#main{
+	background: #fff;
+}

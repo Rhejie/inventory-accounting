@@ -1,0 +1,27 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#title{
+  font-family: Verdana;
+  color: #00008B;
+}
+label{
+	font-family: Arial;
+}
+input[type="text"], input[type="number"] , span#billToEmail, span#companyEmail {
+    border: none;
+    border-bottom: 1px solid #DCDCDC;
+    border-radius: 0;
+    background-color: white;
+}
+
+#main{
+	background: #fff;
+	padding-top: 5px;
+}
+
+
+
+

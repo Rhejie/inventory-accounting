@@ -1,0 +1,176 @@
+<template>
+    <div>
+        <el-form :model="fileForm" :rules="rules" ref="fileForm" label-position="top" class="demo-ruleForm">
+            <el-form-item prop="file">
+                <el-upload
+                    class="upload-demo"
+                    action=""
+                    ref="uploadDocument"
+                    name="projectDocument"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :on-change="fileChange"
+                    :file-list="fileList"
+                    :auto-upload="false"
+                    :limit="1">
+                    <el-button size="small" type="primary">Click to upload Document</el-button>
+                </el-upload>
+            </el-form-item>
+            <el-form-item label="Document Type" prop="file_type">
+                <el-select v-model="fileForm.file_type"  style="width:100%" placeholder="Select Type">
+                <el-option label="Insurance" value="Insurance"></el-option>
+                <el-option label="LTO registration" value="LTO registration"></el-option>
+                <el-option label="Emissions" value="Emissions"></el-option>
+                <el-option label="Third Party Certificate" value="Third Party Certificate"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" :disabled="disableButton" @click="submitForm('fileForm')">Save</el-button>
+                <el-button :disabled="disableButton" v-if="mode != 'update'" @click="resetForm('fileForm')">Reset</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+</template>
+<script>
+export default {
+    name: 'AddEquipmentDocumentForm',
+    props: {
+        id:null,
+        editData: {},
+        mode: null
+    },
+    data() {
+        return {
+            fileList: [],
+            fileForm: {
+                file_type: '',
+                atteched_file: '',
+                file_name: ''
+            },
+            rules: {
+                file_type: [
+                    { required: true, message: 'Please select Type', trigger: 'blur' }
+                ],
+            },
+            disableButton: false,
+        }
+    },
+
+    created() {
+        if(this.editData && this.editData.id && this.mode == 'update') {
+            this.fileForm = {
+                file_type: this.editData.file_type,
+                atteched_file: this.editData.atteched_file,
+                file_name: this.editData.file_name,
+            }
+            this.fileList = [{name: this.editData.file_name, url: `/storage/heavy_equipments/photo/${this.editData.attached_file}`}]
+        }
+        this.$EventDispatcher.listen('handleCloseHEDOC', data => {
+            this.resetForm('fileForm')
+        })
+    },
+    methods: {
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if(this.mode == 'update') {
+                        this.updateDocument();
+                        return
+                    }
+                    this.storeEquipmentDocument()
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+            this.fileList = []
+        },
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
+        fileChange(file, fileList) {
+            this.fileForm.atteched_file = file.raw,
+            this.fileForm.file_name = file.name
+        },
+        async storeEquipmentDocument() {
+            this.disableButton = true
+            try {
+                let formData = new FormData();
+                formData.append('attached_file', this.fileForm.atteched_file);
+                formData.append('file_type', this.fileForm.file_type);
+                formData.append('file_name', this.fileForm.file_name);
+
+                const res = await this.$API.HeavyEquipment.storeEquipmentDocument(this.id, formData);
+                this.$emit('AddEquimentDocument', res.data);
+                this.resetForm('fileForm')
+                this.$notify({
+                    title: 'Success',
+                    message: 'Successfully Added',
+                    type: 'success'
+                });
+                this.disableButton = false;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async updateDocument() {
+            this.disableButton = true
+            try {
+                let formData = new FormData();
+                formData.append('attached_file', this.fileForm.atteched_file);
+                formData.append('file_type', this.fileForm.file_type);
+                formData.append('file_name', this.fileForm.file_name);
+
+                const res = await this.$API.HeavyEquipment.updateEquipmentDocument(this.editData.id, formData);
+
+                this.$notify({
+                    title: 'Success',
+                    message: 'Successfully Updated',
+                    type: 'success'
+                });
+
+                this.$EventDispatcher.fire('HEAVY_EQUIPMENT_DOCUMENT_UPDATE', res.data)
+                this.disableButton = false;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    },
+    watch: {
+        editData(newVal, oldVal) {
+            if(newVal != oldVal & this.model == 'update') {
+                this.fileForm = {
+                    file_type: newVal.file_type,
+                    atteched_file: newVal.atteched_file,
+                    file_name: newVal.file_name
+                }
+                this.fileList = [{name: newVal.file_name, url: `/storage/heavy_equipments/photo/${newVal.attached_file}`}]
+            }
+        },
+        mode(val) {
+            if(val == 'create') {
+                this.fileForm = {
+                    file_type: '',
+                    atteched_file: '',
+                    file_name: ''
+                }
+                this.fileList = []
+            }
+            else {
+                this.fileForm = {
+                    file_type: this.editData.file_type,
+                    atteched_file: this.editData.atteched_file,
+                    file_name: this.editData.file_name,
+                }
+                this.fileList = [{name: this.editData.file_name, url: `/storage/heavy_equipments/photo/${this.editData.attached_file}`}]
+            }
+        }
+    }
+}
+</script>
